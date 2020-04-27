@@ -1,26 +1,26 @@
 [//]: # (Image References)
 
-[image1]: https://user-images.githubusercontent.com/10624937/43851024-320ba930-9aff-11e8-8493-ee547c6af349.gif "Trained Agent"
+[image1]: https://user-images.githubusercontent.com/10624937/42135623-e770e354-7d12-11e8-998d-29fc74429ca2.gif "Trained Agent"
 
-# Project 2: Continuous Control
+# Project 3: Collaboration - Competition
 
 ![Trained Agent][image1]
 
 # Implementation:
-In order to solve the project the DDPG actor-critic method has been implemented.
+In order to solve the project the TD3 actor-critic method has been implemented.
 The code which is splitted into model.py and DDPG_Agent.py is clearly documented for further information about the implementation itself
 
 The neural networks have the following architecture:
 
 The actor:
-	- one input layer with the size 33 (representation of the state space)
-	- three hidden layers with the size 800, 400 and 200 
-	- one output layer with the size 4 (representation of the action space)
+	- one input layer with the size 8 (representation of the state space)
+	- three hidden layers with the size 400, 200 and 100 
+	- one output layer with the size 2 (representation of the action space)
 	
 The critic:
-	- one input layer with the size 33 (representation of the state space)
-	- three hidden layers with the size 800+4to get the last action input of the actor in, 400 and 200 
-	- one output layer with the size 4 (representation of the action space)
+	- one input layer with the size 8 (representation of the state space)
+	- three hidden layers with the size 400+4to get the last action input of the actor in, 200 and 100 
+	- one output layer with the size 2 (representation of the action space)
 	
 The agent creates one target neural network and one local neural network for both the actor and the critic
 
@@ -92,7 +92,7 @@ The replay buffer has two main functions:
         :return: A random selected batch of the memory
 		
 # Learning algorithm
-As a learning algorithm a DDPG with a replay buffer, a local and a target network and a decaying learning rate has been choosen.
+As a learning algorithm a TD3 with a replay buffer, a local and a target network and a decaying learning rate has been choosen.
 
 Local and target network:
 This means there is a target network in order to calculate the TD target and a local DQN to calculate the actual Q-value.
@@ -112,14 +112,14 @@ and thus unlearn the policy quickly. This means you need to observe your agent v
 In order to make learning more stable a decaying learning rate has been introduced. The learning rate starts at a higher value to be more aggressive in the beginning
 but it decays over time. This makes the learning not really slower as you still have a high learning rate in the beggining but more stable due to 
 the lower learning rate at the end.
-The environment was solved after about 250 episodes
+The environment was solved after about 1500 episodes
 
 In order to train the agen the following hyperparameter has been chosen:
 
 	- alpha_start critic = 2e-4 
-	- alpha_min critic = 1e-5
+	- alpha_min critic = 1e-6
 	- alpha start actor = 2e-5
-	- alpha_min actor = 1e-6
+	- alpha_min actor = 1e-7
 	- alpha_decay = 0.999
 	- gamma = 0.99
 	- tau = 0.001
